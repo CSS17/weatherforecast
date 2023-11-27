@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.example.weatherforecast.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class SplashScreen : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var  permissionResult:String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,11 +29,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkAndShowAlertDialog() {
-        if (UserPermission.getPermission(this@MainActivity) == null) {
+        if (UserPermission.getPermission(this@SplashScreen) == null) {
             showListAlertDialog()
 
         } else {
-            Log.d("CONTROL2","${UserPermission.getPermission(this@MainActivity)}")
+            Log.d("CONTROL2","${UserPermission.getPermission(this@SplashScreen)}")
             moveToNextActivity()
         }
     }
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
 
                 // Dialog kutusu işlemleri tamamlandıktan sonra diğer aktiviteye geçiş yap
-                Log.d("CONTROL1","${UserPermission.getPermission(this@MainActivity)}")
+                Log.d("CONTROL1","${UserPermission.getPermission(this@SplashScreen)}")
                 moveToNextActivity()
             }
 
@@ -57,8 +56,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun moveToNextActivity() {
-        val intent = Intent(this@MainActivity, WeatherForecast::class.java)
-        permissionResult=UserPermission.getPermission(this@MainActivity).toString()
+        val intent = Intent(this@SplashScreen, WeatherForecast::class.java)
+        permissionResult=UserPermission.getPermission(this@SplashScreen).toString()
         Log.d("CONTROL3",permissionResult)
         intent.putExtra("PERMISSION", permissionResult)
         startActivity(intent)
