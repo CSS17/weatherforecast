@@ -38,15 +38,46 @@ class WeatherFragment:Fragment() {
             // Fragment'ın oluşturulması
             binding = FragmentWeatherBinding.inflate(inflater, container, false)
 
-            // Veriyi almak
+            // Getting Data
             val data = arguments?.getDoubleArray("KEY_DATA")
             Log.d("LOL", "${data?.get(0)}  ${data?.get(1)}")
+            getCity(data)
+            // Update the Textview on here
+            binding.textview.text = "${getCity(data)}"
 
-            // Textview'i güncelle
-            binding.textview.text = "${data?.get(0)} /n ${data?.get(1)}"
+
 
             return binding.root
         }
+
+
+        private fun getCity(coordinates:DoubleArray?):String{
+            val locationUtils = context?.let { LocationUtils(it) }
+            var latitude = coordinates?.get(0)
+            var longitude = coordinates?.get(1)
+
+            val latitude2 = 39.7667
+            val longitude2 = 30.5256
+            val address2 = locationUtils?.getAddressFromLocation(latitude2, longitude2)
+            println("Manuel Koordinat: $address2")
+
+
+            val address = latitude?.let { longitude?.let { it1 ->
+                locationUtils?.getAddressFromLocation(it,
+                    it1
+                )
+            } }
+
+            if (address != null) {
+                println("Konum: $address")
+                return address
+            } else {
+                println("Konum bilgisi alınamadı.")
+                return "Location Couldn't Found."
+            }
+
+        }
+
     }
 
 
