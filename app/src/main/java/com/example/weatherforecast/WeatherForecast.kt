@@ -8,20 +8,20 @@ import com.example.weatherforecast.databinding.ActivityWeatherForecastBinding
 
 class WeatherForecast : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherForecastBinding
-
+    private var coordinateList= doubleArrayOf(0.0,0.0)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityWeatherForecastBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var latitude=0.0
+
 
         if (UserPermission.getPermission(this@WeatherForecast)=="true"){
             val intent = intent
-            latitude = intent.getDoubleExtra("LATITUDE",0.0)
-            val longitude = intent.getDoubleExtra("LONGITUDE",0.0)
-            Log.d("COORDINATES","LATIDUDE:$latitude ---- LONGITUDE:$longitude")
-            val fragment = WeatherFragment.newInstance(latitude)
-            replaceFragment(WeatherFragment())
+            coordinateList[0] = intent.getDoubleExtra("LATITUDE",0.0)
+            coordinateList[1] = intent.getDoubleExtra("LONGITUDE",0.0)
+            Log.d("COORDINATES","LATIDUDE:${coordinateList[0]} ---- LONGITUDE:${coordinateList[1]}")
+            val fragment = WeatherFragment.newInstance(coordinateList)
+            replaceFragment(fragment)
         }
         else{
             replaceFragment(PermissionDeniedFragment())
@@ -32,14 +32,9 @@ class WeatherForecast : AppCompatActivity() {
 
 
     private fun replaceFragment(fragment:Fragment){
-        val fragmentManager=supportFragmentManager
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
-        val fragmentTransaction=fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container,fragment)
-        fragmentTransaction.commit()
-
     }
 
 
