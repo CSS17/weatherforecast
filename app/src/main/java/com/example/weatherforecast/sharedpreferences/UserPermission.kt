@@ -18,6 +18,7 @@ object UserPermission {
     fun saveFlagcontext(context: Context, permission: Boolean){
         getSharedPreferences(context).edit().putString(FIRST_START_FLAG, permission.toString()).apply()
     }
+
     fun getFlagcontext(context: Context):String?{
         return getSharedPreferences(context).getString(FIRST_START_FLAG,null)
     }

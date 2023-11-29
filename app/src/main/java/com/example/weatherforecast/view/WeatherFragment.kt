@@ -33,26 +33,20 @@ class WeatherFragment : Fragment() {
         super.onCreate(savedInstanceState)
         binding = FragmentWeatherBinding.inflate(layoutInflater)
 
-        val context=requireContext()
 
-        if(arguments?.getDoubleArray("FRAGMENT")?.size!=0 && UserPermission.getFlagcontext(context)=="false"){
-            UserPermission.saveFlagcontext(context,true)
             val data = arguments?.getDoubleArray("FRAGMENT")
-            Log.d("LATLONG", "İF İÇİ ${data?.get(0)}  ${data?.get(1)}")
-            if (data != null) {
-                latitude = data[0]
-                longitude = data[1]
-            }
-        }
-        else{
-            val data = arguments?.getDoubleArray("KEY_DATA")
-            Log.d("LATLONG", "ELSE İÇİ ${data?.get(0)}  ${data?.get(1)}")
+            val data2 = arguments?.getDoubleArray("KEY_DATA")
 
             if (data != null) {
                 latitude = data[0]
                 longitude = data[1]
             }
-        }
+            else if(data2!=null){
+                latitude = data2[0]
+                longitude = data2[1]
+            }
+
+
 
 
         viewModel = ViewModelProvider(this).get(CityViewModel::class.java)

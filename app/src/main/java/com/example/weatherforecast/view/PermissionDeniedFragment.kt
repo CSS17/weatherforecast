@@ -24,7 +24,7 @@ class PermissionDeniedFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val context=requireContext()
 
 
 
@@ -36,6 +36,7 @@ class PermissionDeniedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPermissionDeniedBinding.inflate(inflater, container, false)
+
         binding.btnOpenLocation.setOnClickListener {
             getPermission()
         }

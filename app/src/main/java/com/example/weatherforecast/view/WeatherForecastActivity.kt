@@ -1,5 +1,6 @@
 package com.example.weatherforecast.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +29,12 @@ class WeatherForecastActivity : AppCompatActivity() {
         else{
             replaceFragment(PermissionDeniedFragment())
         }
+
+        binding.searchBar.setOnClickListener {
+            val intent = Intent(this@WeatherForecastActivity, SearchScreenActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
     }
