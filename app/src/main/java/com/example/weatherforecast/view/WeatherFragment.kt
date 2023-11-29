@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.constants.Constants.APPID
 import com.example.weatherforecast.constants.Constants.EXCLUDE
 import com.example.weatherforecast.databinding.FragmentWeatherBinding
+import com.example.weatherforecast.sharedpreferences.UserPermission
 import com.example.weatherforecast.viewmodel.CityViewModel
 import com.example.weatherforecast.viewmodel.Temperature
 import com.example.weatherforecast.viewmodel.WeatherAdapter
@@ -32,26 +33,49 @@ class WeatherFragment : Fragment() {
         super.onCreate(savedInstanceState)
         binding = FragmentWeatherBinding.inflate(layoutInflater)
 
-        val data = arguments?.getDoubleArray("KEY_DATA")
-        Log.d("LATLONG", "${data?.get(0)}  ${data?.get(1)}")
+        val context=requireContext()
 
-        if (data != null) {
-            latitude = data[0]
-            longitude = data[1]
+        if(arguments?.getDoubleArray("FRAGMENT")?.size!=0 && UserPermission.getFlagcontext(context)=="false"){
+            UserPermission.saveFlagcontext(context,true)
+            val data = arguments?.getDoubleArray("FRAGMENT")
+            Log.d("LATLONG", "İF İÇİ ${data?.get(0)}  ${data?.get(1)}")
+            if (data != null) {
+                latitude = data[0]
+                longitude = data[1]
+            }
         }
+        else{
+            val data = arguments?.getDoubleArray("KEY_DATA")
+            Log.d("LATLONG", "ELSE İÇİ ${data?.get(0)}  ${data?.get(1)}")
+
+            if (data != null) {
+                latitude = data[0]
+                longitude = data[1]
+            }
+        }
+
 
         viewModel = ViewModelProvider(this).get(CityViewModel::class.java)
         viewModel.getWeatherData(latitude, longitude, EXCLUDE, APPID)
 
     }
         companion object {
-            fun newInstance(data: DoubleArray): WeatherFragment {
+            fun newInstance(data: DoubleArray,from:String): WeatherFragment {
                 val fragment = WeatherFragment()
                 val args = Bundle()
-                args.putDoubleArray("KEY_DATA", data)
-                Log.d("LOL",args.toString())
-                fragment.arguments = args
-                return fragment
+                if (from=="activity"){
+                    args.putDoubleArray("KEY_DATA", data)
+                    Log.d("LOL",args.toString())
+                    fragment.arguments = args
+                    return fragment
+                }
+                else{
+                    args.putDoubleArray("FRAGMENT", data)
+                    Log.d("LOL",args.toString())
+                    fragment.arguments = args
+                    return fragment
+                }
+
             }
         }
         override fun onCreateView(

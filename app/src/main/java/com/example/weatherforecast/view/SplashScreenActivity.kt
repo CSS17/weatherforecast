@@ -12,7 +12,7 @@ import com.example.weatherforecast.sharedpreferences.UserPermission
 import com.example.weatherforecast.databinding.ActivityMainBinding
 import com.google.android.gms.location.LocationServices
 
-class SplashScreen : AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var permissionResult = false
     private var coordinateList = HashMap<String, Double>()
@@ -40,7 +40,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun moveToNextActivity() {
-        val intent = Intent(this@SplashScreen, WeatherForecast::class.java)
+        val intent = Intent(this@SplashScreenActivity, WeatherForecastActivity::class.java)
         intent.putExtra("LATITUDE", coordinateList["Latitude"])
         intent.putExtra("LONGITUDE", coordinateList["Longitude"])
         startActivity(intent)
@@ -50,16 +50,16 @@ class SplashScreen : AppCompatActivity() {
     private fun checkSituation() {
         // Getting Permission For first time
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && UserPermission.getFlagcontext(
-                this@SplashScreen
+                this@SplashScreenActivity
             ) ==null) {
-            UserPermission.saveFlagcontext(this@SplashScreen, false)
+            UserPermission.saveFlagcontext(this@SplashScreenActivity, false)
             // İzin verilmemişse izin talep et
             getPermission()
         }
 
         //Permission Already Allowed
         else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && UserPermission.getFlagcontext(
-                this@SplashScreen
+                this@SplashScreenActivity
             ) !=null){
             // İzin zaten varsa izin durumunu kaydet ve diğer aktiviteye geç
             getLocation()
@@ -67,7 +67,7 @@ class SplashScreen : AppCompatActivity() {
 
         //Permission Already Denied
         else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && UserPermission.getFlagcontext(
-                this@SplashScreen
+                this@SplashScreenActivity
             ) !=null){
             moveToNextActivity()
         }

@@ -8,10 +8,10 @@
     >
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/warning_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="KONUM KAPALI"
+        android:text="LOCATION OFF"
         android:textColor="@color/white"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -23,15 +23,16 @@
         app:layout_constraintVertical_bias="0.402" />
 
     <Button
+        android:id="@+id/btn_open_location"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:backgroundTint="#4CAF50"
-        android:text="KONUM AÇ"
+        android:text="OPEN LOCATION"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/warning_text"
         app:layout_constraintVertical_bias="0.121" />
 
 
