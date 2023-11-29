@@ -1,4 +1,4 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.view
 
 import android.Manifest
 import android.content.Intent
@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.weatherforecast.sharedpreferences.UserPermission
 import com.example.weatherforecast.databinding.ActivityMainBinding
 import com.google.android.gms.location.LocationServices
 
@@ -49,20 +49,26 @@ class SplashScreen : AppCompatActivity() {
 
     private fun checkSituation() {
         // Getting Permission For first time
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && UserPermission.getFlagcontext(this@SplashScreen)==null) {
-            UserPermission.saveFlagcontext(this@SplashScreen,false)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && UserPermission.getFlagcontext(
+                this@SplashScreen
+            ) ==null) {
+            UserPermission.saveFlagcontext(this@SplashScreen, false)
             // İzin verilmemişse izin talep et
             getPermission()
         }
 
         //Permission Already Allowed
-        else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&UserPermission.getFlagcontext(this@SplashScreen)!=null){
+        else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && UserPermission.getFlagcontext(
+                this@SplashScreen
+            ) !=null){
             // İzin zaten varsa izin durumunu kaydet ve diğer aktiviteye geç
             getLocation()
         }
 
         //Permission Already Denied
-        else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&UserPermission.getFlagcontext(this@SplashScreen)!=null){
+        else if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && UserPermission.getFlagcontext(
+                this@SplashScreen
+            ) !=null){
             moveToNextActivity()
         }
 

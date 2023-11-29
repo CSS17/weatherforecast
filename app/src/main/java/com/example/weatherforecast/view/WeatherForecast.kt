@@ -1,9 +1,11 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.example.weatherforecast.R
+import com.example.weatherforecast.sharedpreferences.UserPermission
 import com.example.weatherforecast.databinding.ActivityWeatherForecastBinding
 
 class WeatherForecast : AppCompatActivity() {
@@ -15,7 +17,7 @@ class WeatherForecast : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        if (UserPermission.getPermission(this@WeatherForecast)=="true"){
+        if (UserPermission.getPermission(this@WeatherForecast) =="true"){
             val intent = intent
             coordinateList[0] = intent.getDoubleExtra("LATITUDE",0.0)
             coordinateList[1] = intent.getDoubleExtra("LONGITUDE",0.0)

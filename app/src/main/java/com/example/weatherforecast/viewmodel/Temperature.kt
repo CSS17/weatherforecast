@@ -1,7 +1,9 @@
 package com.example.weatherforecast.viewmodel
 
 import android.content.Context
-import com.example.weatherforecast.LocationUtils
+import com.example.weatherforecast.service.LocationUtils
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Temperature {
 
@@ -22,7 +24,11 @@ class Temperature {
         return celcius
     }
 
-
+    fun convertDateTime(date: Long): String {
+        val dateFormat = SimpleDateFormat("EEEE", Locale("en_US"))
+        val formattedDate = dateFormat.format(Date(date * 1000)) // Unix zaman damgasını milisaniyeye çevir
+        return formattedDate
+    }
 
 
 
