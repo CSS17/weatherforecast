@@ -6,31 +6,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.weatherforecast.constants.Constants.APPID
+import com.example.weatherforecast.constants.Constants.EXCLUDE
 import com.example.weatherforecast.databinding.FragmentWeatherBinding
+import com.example.weatherforecast.viewmodel.CityViewModel
+import com.example.weatherforecast.viewmodel.Temperature
 
-class WeatherFragment:Fragment() {
+class WeatherFragment : Fragment() {
     private lateinit var binding: FragmentWeatherBinding
-
+    private lateinit var viewModel: CityViewModel
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+    var celcius=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= FragmentWeatherBinding.inflate(layoutInflater)
+        binding = FragmentWeatherBinding.inflate(layoutInflater)
 
-    }
-    companion object {
-        fun newInstance(data: DoubleArray): WeatherFragment {
-            val fragment = WeatherFragment()
-            val args = Bundle()
-            args.putDoubleArray("KEY_DATA", data)
-            Log.d("LOL",args.toString())
-            fragment.arguments = args
-            return fragment
+        val data = arguments?.getDoubleArray("KEY_DATA")
+        Log.d("LOL", "${data?.get(0)}  ${data?.get(1)}")
+
+        if (data != null) {
+            latitude = data[0]
+            longitude = data[1]
         }
+
+        viewModel = ViewModelProvider(this).get(CityViewModel::class.java)
+        viewModel.getWeatherData(latitude, longitude, EXCLUDE, APPID)
     }
-
-
-    class WeatherFragment : Fragment() {
-        private lateinit var binding: FragmentWeatherBinding
-
+        companion object {
+            fun newInstance(data: DoubleArray): WeatherFragment {
+                val fragment = WeatherFragment()
+                val args = Bundle()
+                args.putDoubleArray("KEY_DATA", data)
+                Log.d("LOL",args.toString())
+                fragment.arguments = args
+                return fragment
+            }
+        }
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -39,47 +53,34 @@ class WeatherFragment:Fragment() {
             binding = FragmentWeatherBinding.inflate(inflater, container, false)
 
             // Getting Data
-            val data = arguments?.getDoubleArray("KEY_DATA")
-            Log.d("LOL", "${data?.get(0)}  ${data?.get(1)}")
-            getCity(data)
-            // Update the Textview on here
-            binding.textview.text = "${getCity(data)}"
+            val temperature = Temperature()
 
+            val city = temperature.getCity(latitude, longitude, requireContext())
 
+            binding.textview.text = city
+
+            viewModel.weatherData.observe(viewLifecycleOwner, Observer { weatherData ->
+                // weatherData'yi kullanarak gerekli güncellemeleri yapın
+                if (weatherData != null) {
+                    val currentTemperature = weatherData.current.temp
+                    celcius=temperature.convertToCelcius(currentTemperature)
+                    binding.degree.text="$celcius°"
+                    Log.d("SATURN",currentTemperature.toString())
+                }
+            })
 
             return binding.root
         }
 
 
-        private fun getCity(coordinates:DoubleArray?):String{
-            val locationUtils = context?.let { LocationUtils(it) }
-            var latitude = coordinates?.get(0)
-            var longitude = coordinates?.get(1)
-
-            val latitude2 = 39.7667
-            val longitude2 = 30.5256
-            val address2 = locationUtils?.getAddressFromLocation(latitude2, longitude2)
-            println("Manuel Koordinat: $address2")
 
 
-            val address = latitude?.let { longitude?.let { it1 ->
-                locationUtils?.getAddressFromLocation(it,
-                    it1
-                )
-            } }
 
-            if (address != null) {
-                println("Konum: $address")
-                return address
-            } else {
-                println("Konum bilgisi alınamadı.")
-                return "Location Couldn't Found."
-            }
 
-        }
+
+
 
     }
 
 
 
-}
