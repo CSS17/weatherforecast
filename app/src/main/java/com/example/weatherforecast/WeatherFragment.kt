@@ -25,7 +25,7 @@ class WeatherFragment : Fragment() {
         binding = FragmentWeatherBinding.inflate(layoutInflater)
 
         val data = arguments?.getDoubleArray("KEY_DATA")
-        Log.d("LOL", "${data?.get(0)}  ${data?.get(1)}")
+        Log.d("LATLONG", "${data?.get(0)}  ${data?.get(1)}")
 
         if (data != null) {
             latitude = data[0]
@@ -49,7 +49,6 @@ class WeatherFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
-            // Fragment'ın oluşturulması
             binding = FragmentWeatherBinding.inflate(inflater, container, false)
 
             // Getting Data
@@ -60,11 +59,13 @@ class WeatherFragment : Fragment() {
             binding.textview.text = city
 
             viewModel.weatherData.observe(viewLifecycleOwner, Observer { weatherData ->
-                // weatherData'yi kullanarak gerekli güncellemeleri yapın
                 if (weatherData != null) {
                     val currentTemperature = weatherData.current.temp
+                    val currentIcon=weatherData.current.weather.get(0).description
+                    Log.d("DAILY","${currentIcon}")
                     celcius=temperature.convertToCelcius(currentTemperature)
                     binding.degree.text="$celcius°"
+                    setWeatherIcon(currentIcon)
                     Log.d("SATURN",currentTemperature.toString())
                 }
             })
@@ -73,14 +74,44 @@ class WeatherFragment : Fragment() {
         }
 
 
+    fun setWeatherIcon(weather: String) {
+        when (weather) {
+            "clear sky" -> binding.imageView.setImageResource(R.drawable.clear_sky)
 
+            "few clouds"->binding.imageView.setImageResource(R.drawable.few_clouds)
 
+            "scattered clouds"->binding.imageView.setImageResource(R.drawable.scattered_clouds)
 
+            "broken clouds","overcast clouds"->binding.imageView.setImageResource(R.drawable.broken_clouds)
 
+            "mist","smoke","haze","sand/dust whirls","fog","sand","dust","volcanic ash","squalls","tornado"->binding.imageView.setImageResource(R.drawable.mist)
 
+            "light snow","snow","heavy snow","sleet","light shower sleet","shower sleet","light rain and snow",
+            "rain and snow","light shower snow","shower snow","heavy shower snow","freezing rain"->binding.imageView.setImageResource(R.drawable.snow)
+
+            "light rain","moderate rain","heavy intensity rain","very heavy rain","extreme rain"->binding.imageView.setImageResource(R.drawable.rain)
+
+            "light intensity shower rain","shower rain","heavy intensity shower rain","ragged shower rain"
+                ,"shower drizzle","heavy shower rain and drizzle","shower rain and drizzle","heavy intensity drizzle rain",
+            "drizzle rain","light intensity drizzle rain","heavy intensity drizzle","drizzle","light intensity drizzle"->binding.imageView.setImageResource(R.drawable.shower_rain)
+
+            "thunderstorm with light rain","thunderstorm with rain","thunderstorm with heavy rain","light thunderstorm","thunderstorm",
+            "heavy thunderstorm","ragged thunderstorm","thunderstorm with light drizzle","thunderstorm with drizzle","thunderstorm with heavy drizzle"->binding.imageView.setImageResource(R.drawable.thunderstorm)
+
+            else -> "nothing found"
+        }
 
 
     }
+
+    }
+
+
+
+
+
+
+
 
 
 

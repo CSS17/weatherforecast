@@ -1,5 +1,4 @@
 package com.example.weatherforecast.viewmodel
-
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,13 +25,11 @@ class CityViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _weatherData.value = response.body()
                 } else {
-                    // API'den başarısız yanıt alındığında burada işlemleri gerçekleştirin
                     _errorMessage.value = "API request failed with code: ${response.code()}"
                     Log.d("ViewModel", "API request failed with code: ${response.code()}")
                 }
             }
             catch (e: Exception) {
-                // Hata durumunda burada işlemleri gerçekleştirin
                 _errorMessage.value = "An error occurred: ${e.message}"
                 Log.d("ViewModel", "An error occurred: ${e.message}")
             }
