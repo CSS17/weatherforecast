@@ -41,6 +41,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun moveToNextActivity() {
         val intent = Intent(this@SplashScreenActivity, WeatherForecastActivity::class.java)
+        intent.putExtra("callerActivity", "SearchScreen")
         intent.putExtra("LATITUDE", coordinateList["Latitude"])
         intent.putExtra("LONGITUDE", coordinateList["Longitude"])
         startActivity(intent)

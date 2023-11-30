@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.constants.Constants.APPID
 import com.example.weatherforecast.constants.Constants.EXCLUDE
 import com.example.weatherforecast.databinding.FragmentWeatherBinding
-import com.example.weatherforecast.sharedpreferences.UserPermission
 import com.example.weatherforecast.viewmodel.CityViewModel
 import com.example.weatherforecast.viewmodel.Temperature
 import com.example.weatherforecast.viewmodel.WeatherAdapter
@@ -34,16 +33,22 @@ class WeatherFragment : Fragment() {
         binding = FragmentWeatherBinding.inflate(layoutInflater)
 
 
-            val data = arguments?.getDoubleArray("FRAGMENT")
-            val data2 = arguments?.getDoubleArray("KEY_DATA")
+            val dataFragment = arguments?.getDoubleArray("FRAGMENT")
+            val dataActivity = arguments?.getDoubleArray("KEY_DATA")
+            val dataSearch = arguments?.getDoubleArray("SEARCH")
 
-            if (data != null) {
-                latitude = data[0]
-                longitude = data[1]
+            if (dataFragment != null) {
+                latitude = dataFragment[0]
+                longitude = dataFragment[1]
             }
-            else if(data2!=null){
-                latitude = data2[0]
-                longitude = data2[1]
+            else if(dataSearch!=null){
+                latitude = dataSearch[0]
+                longitude = dataSearch[1]
+            }
+
+            else if(dataActivity!=null){
+                latitude = dataActivity[0]
+                longitude = dataActivity[1]
             }
 
 
@@ -63,6 +68,13 @@ class WeatherFragment : Fragment() {
                     fragment.arguments = args
                     return fragment
                 }
+                else if (from=="search_activty"){
+                    args.putDoubleArray("SEARCH", data)
+                    Log.d("LOL",args.toString())
+                    fragment.arguments = args
+                    return fragment
+                }
+
                 else{
                     args.putDoubleArray("FRAGMENT", data)
                     Log.d("LOL",args.toString())

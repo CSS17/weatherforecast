@@ -19,6 +19,7 @@
     </androidx.fragment.app.FragmentContainerView>
 
     <EditText
+        android:hint="search... (Tip:Second Click Works)"
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
