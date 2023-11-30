@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".view.SearchScreenActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="300dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:hint="Search..."
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:backgroundTint="#C1BDBD"
+            android:src="@drawable/search"
+            ></ImageButton>
+
+    </LinearLayout>
+    <!-- EditText for searching -->
+
+
+    <!-- RecyclerView for displaying search history -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSearchHistory"
+        android:visibility="gone"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#A6A5A5"
+        />
+</LinearLayout>
